@@ -1,0 +1,48 @@
+/*
+  Projekt 15.2. Schaltung IR
+*/
+
+#include <IRremote.h>
+
+int RECV_PIN = 11;
+
+IRrecv irrecv(RECV_PIN);
+
+decode_results results;
+
+void setup()
+
+{
+
+Serial.begin(9600);
+
+pinMode (8, OUTPUT);   //An Pin 13 wird eine LED angeschlossen.
+digitalWrite(8, HIGH);    //Diese soll zunächst aus sein
+irrecv.enableIRIn();
+
+}
+
+void loop() {
+
+if (irrecv.decode(&results)) {
+
+Serial.println(results.value, DEC);
+
+
+
+if (results.value == CODE )   //Wenn der Infrarotempfänger die Zahl 
+//„16724175“ ausgelesen hat (Entsprechend der Taste“1“ der Fernbedienung)
+
+
+{digitalWrite (8, LOW);}   //soll die LED an gehen.
+
+
+if (results.value == CODE)   //Wenn der Infrarotempfänger die Zahl 
+//„16718055“ ausgelesen hat (Entsprechend der Taste“2“ der Fernbedienung), 
+
+{digitalWrite (8, HIGH);}  //soll die LED aus gehen.
+irrecv.resume();
+
+}
+
+}
